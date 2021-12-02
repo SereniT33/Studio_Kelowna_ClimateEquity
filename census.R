@@ -56,6 +56,7 @@ find_census_vectors("65 years", dataset = "CA16", type = "total", query_type = "
 
 find_census_vectors("0 to 4 years", dataset = "CA16", type = "total", query_type = "exact")
 
+
 #Second is the visible minority population. (vector# v_CA16_3957)
 
 find_census_vectors("visible minority", dataset = "CA16", type = "total", query_type = "exact")
@@ -86,7 +87,6 @@ find_census_vectors("Transportation and warehousing", dataset = "CA16", type = "
 find_census_vectors("Arts, entertainment", dataset = "CA16", type = "total", query_type = "exact")
 find_census_vectors("Accommodation and food", dataset = "CA16", type = "total", query_type = "exact")
 
-
 #Seventh, home ownership data has
 #"Owner" (v_CA16_4837) & "Renter" (v_CA16_4838)
 find_census_vectors("Owner", dataset = "CA16", type = "total", query_type = "exact")
@@ -107,3 +107,99 @@ find_census_vectors("Movable dwelling", dataset = "CA16", type = "total", query_
 find_census_vectors("1 person", dataset = "CA16", type = "total", query_type = "exact")
 
 
+
+
+# Accordingly, I will make 9 data sets for each 9 groups of variables.
+
+#First, age
+
+CT16Age <- get_census(dataset='CA16', regions=list(CMA='59915'),
+                          vectors=c("v_CA16_7","v_CA16_244"),
+                          level = 'CT', use_cache = FALSE) %>%
+                filter(!GeoUID %in% c("9150100.00", "9150101.00","9150102.01",
+                        "9150102.04", "9150102.05",
+                        "9150102.06", "9150103.00",
+                        "9150104.01", "9150104.02",
+                        "9150105.01", "9150105.02", "9150105.03"))
+
+#Second, visible minority pop.
+
+CT16Race <- get_census(dataset='CA16', regions=list(CMA='59915'),
+                       vectors= "v_CA16_3957",
+                       level = 'CT', use_cache = FALSE) %>%
+  filter(!GeoUID %in% c("9150100.00", "9150101.00","9150102.01",
+                        "9150102.04", "9150102.05",
+                        "9150102.06", "9150103.00",
+                        "9150104.01", "9150104.02",
+                        "9150105.01", "9150105.02", "9150105.03"))
+
+#Third, language proficiency
+
+CT16Language <- get_census(dataset='CA16', regions=list(CMA='59915'),
+                           vectors= "v_CA16_524",
+                           level = 'CT', use_cache = FALSE) %>%
+  filter(!GeoUID %in% c("9150100.00", "9150101.00","9150102.01",
+                        "9150102.04", "9150102.05",
+                        "9150102.06", "9150103.00",
+                        "9150104.01", "9150104.02",
+                        "9150105.01", "9150105.02", "9150105.03"))
+
+#Fourth, income
+
+
+#Fifth, education attainment
+
+CT16Education <- get_census(dataset='CA16', regions=list(CMA='59915'),
+                            vectors= "v_CA16_5054",
+                            level = 'CT', use_cache = FALSE) %>%
+  filter(!GeoUID %in% c("9150100.00", "9150101.00","9150102.01",
+                        "9150102.04", "9150102.05",
+                        "9150102.06", "9150103.00",
+                        "9150104.01", "9150104.02",
+                        "9150105.01", "9150105.02", "9150105.03"))
+
+#Sixth, primary & tourism industry
+
+CT16PrimaryTourism <- get_census(dataset='CA16', regions=list(CMA='59915'),
+                                 vectors=c("v_CA16_5702","v_CA16_5705",
+                                           "v_CA16_5723", "v_CA16_5750",
+                                           "v_CA16_5753"),
+                                 level = 'CT', use_cache = FALSE) %>%
+  filter(!GeoUID %in% c("9150100.00", "9150101.00","9150102.01",
+                        "9150102.04", "9150102.05",
+                        "9150102.06", "9150103.00",
+                        "9150104.01", "9150104.02",
+                        "9150105.01", "9150105.02", "9150105.03"))
+
+#Seventh, home ownership
+
+CT16HomeOwnership <- get_census(dataset='CA16', regions=list(CMA='59915'),
+                                vectors=c("v_CA16_4837","v_CA16_4838"),
+                                level = 'CT', use_cache = FALSE) %>%
+  filter(!GeoUID %in% c("9150100.00", "9150101.00","9150102.01",
+                        "9150102.04", "9150102.05",
+                        "9150102.06", "9150103.00",
+                        "9150104.01", "9150104.02",
+                        "9150105.01", "9150105.02", "9150105.03"))
+
+#Eighth, dwelling structure
+
+CT16DwellingStructure <- get_census(dataset='CA16', regions=list(CMA='59915'),
+                                vectors=c("v_CA16_40","v_CA16_410", "v_CA16_417"),
+                                level = 'CT', use_cache = FALSE) %>%
+  filter(!GeoUID %in% c("9150100.00", "9150101.00","9150102.01",
+                        "9150102.04", "9150102.05",
+                        "9150102.06", "9150103.00",
+                        "9150104.01", "9150104.02",
+                        "9150105.01", "9150105.02", "9150105.03"))
+
+
+#Ninth, living alone
+CT16LiveAlone <- get_census(dataset='CA16', regions=list(CMA='59915'),
+                            vectors= "v_CA16_419",
+                            level = 'CT', use_cache = FALSE) %>%
+  filter(!GeoUID %in% c("9150100.00", "9150101.00","9150102.01",
+                        "9150102.04", "9150102.05",
+                        "9150102.06", "9150103.00",
+                        "9150104.01", "9150104.02",
+                        "9150105.01", "9150105.02", "9150105.03"))
