@@ -17,6 +17,7 @@ cancensus <- list_census_datasets()
 kelownaCMA16 <- list_census_regions('CA16') %>%
   filter(level == "CMA", name %in% "Kelowna")
 
+
 #"kelownaCT16" below is census tract data for Kelowna according to 2016 census data.
 
 kelownaCT16 <- get_census(dataset='CA16', regions=list(CMA='59915'),
@@ -46,27 +47,28 @@ kelownaDA16 <- get_census(dataset='CA16', regions=list(CMA='59915'),
 
 #Now I will find vector #'s for each variables.
 
+
 #First, we will find the vector #'s for age.
 #age "0 to 4 years" is "v_CA16_7".
 #age "65 years and over" is v_CA16_244.
 
 find_census_vectors("0 to 4 years", dataset = "CA16", type = "total", query_type = "exact")
-
 find_census_vectors("65 years", dataset = "CA16", type = "total", query_type = "exact")
-
 find_census_vectors("0 to 4 years", dataset = "CA16", type = "total", query_type = "exact")
 
 
 #Second is the visible minority population. (vector# v_CA16_3957)
-
 find_census_vectors("visible minority", dataset = "CA16", type = "total", query_type = "exact")
 
 #Third is the knowledge of language - "neither English nor French".
 # (vector# V_CA16_524) While I chose 524, vector ~539 also shows up.
-
 find_census_vectors("neither English nor", dataset = "CA16", type = "total", query_type = "exact")
 
-#Fourth, income less than
+#Fourth, "Median after-tax income of one-person households in 2015"
+#and "Median after-tax income of two-or-more-person households in 2015" are
+# (v_CA16_2401) & (v_CA16_2404)
+find_census_vectors("Median after-tax income of one-person households in 2015", dataset = "CA16", type = "total", query_type = "exact")
+find_census_vectors("Median after-tax income of two-or-more-person households in 2015", dataset = "CA16", type = "total", query_type = "exact")
 
 
 #Fifth, education attainment, "no certificate, diploma or degree"
@@ -145,6 +147,15 @@ CT16Language <- get_census(dataset='CA16', regions=list(CMA='59915'),
                         "9150105.01", "9150105.02", "9150105.03"))
 
 #Fourth, income
+CT16Income <- get_census(dataset='CA16', regions=list(CMA='59915'),
+                         vectors=c("v_CA16_2401","v_CA16_2404"),
+                         level = 'CT', use_cache = FALSE) %>%
+  filter(!GeoUID %in% c("9150100.00", "9150101.00","9150102.01",
+                        "9150102.04", "9150102.05",
+                        "9150102.06", "9150103.00",
+                        "9150104.01", "9150104.02",
+                        "9150105.01", "9150105.02", "9150105.03"))
+
 
 
 #Fifth, education attainment
