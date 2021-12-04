@@ -5,6 +5,10 @@ install.packages("cancensus")
 library(cancensus)
 library(tidyverse)
 library(dplyr)
+library(sf)
+library(geojsonsf)
+
+setwd("E:/ArcGIS")
 
 options(cancensus.api_key = "CensusMapper_330652d5ae9c2ccaafc7883a06fb3967")
 options(cancensus.cache_path = "./CancensusCache")
@@ -117,23 +121,30 @@ find_census_vectors("1 person", dataset = "CA16", type = "total", query_type = "
 
 CT16Age <- get_census(dataset='CA16', regions=list(CMA='59915'),
                           vectors=c("v_CA16_7","v_CA16_244"),
-                          level = 'CT', use_cache = FALSE) %>%
+                          level = 'CT', geo_format ="sf", use_cache = FALSE) %>%
                 filter(!GeoUID %in% c("9150100.00", "9150101.00","9150102.01",
                         "9150102.04", "9150102.05",
                         "9150102.06", "9150103.00",
                         "9150104.01", "9150104.02",
                         "9150105.01", "9150105.02", "9150105.03"))
 
+
+plot(CT16Age[""])
+
+st_write(CT16Age, "Age_shp", driver="ESRI Shapefile")
+
 #Second, visible minority pop.
 
 CT16Race <- get_census(dataset='CA16', regions=list(CMA='59915'),
                        vectors= "v_CA16_3957",
-                       level = 'CT', use_cache = FALSE) %>%
+                       level = 'CT', geo_format ="sf", use_cache = FALSE) %>%
   filter(!GeoUID %in% c("9150100.00", "9150101.00","9150102.01",
                         "9150102.04", "9150102.05",
                         "9150102.06", "9150103.00",
                         "9150104.01", "9150104.02",
                         "9150105.01", "9150105.02", "9150105.03"))
+
+st_write(CT16Race, "VisualMinority_shp", driver="ESRI Shapefile")
 
 #Third, language proficiency
 
@@ -145,6 +156,7 @@ CT16Language <- get_census(dataset='CA16', regions=list(CMA='59915'),
                         "9150102.06", "9150103.00",
                         "9150104.01", "9150104.02",
                         "9150105.01", "9150105.02", "9150105.03"))
+st_write(CT16Age, "Language_shp", driver="ESRI Shapefile")
 
 #Fourth, income
 CT16Income <- get_census(dataset='CA16', regions=list(CMA='59915'),
@@ -156,7 +168,7 @@ CT16Income <- get_census(dataset='CA16', regions=list(CMA='59915'),
                         "9150104.01", "9150104.02",
                         "9150105.01", "9150105.02", "9150105.03"))
 
-
+st_write(CT16Age, "Income_shp", driver="ESRI Shapefile")
 
 #Fifth, education attainment
 
@@ -168,6 +180,8 @@ CT16Education <- get_census(dataset='CA16', regions=list(CMA='59915'),
                         "9150102.06", "9150103.00",
                         "9150104.01", "9150104.02",
                         "9150105.01", "9150105.02", "9150105.03"))
+
+st_write(CT16Age, "Education_shp", driver="ESRI Shapefile")
 
 #Sixth, primary & tourism industry
 
@@ -182,6 +196,9 @@ CT16PrimaryTourism <- get_census(dataset='CA16', regions=list(CMA='59915'),
                         "9150104.01", "9150104.02",
                         "9150105.01", "9150105.02", "9150105.03"))
 
+st_write(CT16Age, "PrimaryTourism_shp", driver="ESRI Shapefile")
+
+
 #Seventh, home ownership
 
 CT16HomeOwnership <- get_census(dataset='CA16', regions=list(CMA='59915'),
@@ -192,6 +209,8 @@ CT16HomeOwnership <- get_census(dataset='CA16', regions=list(CMA='59915'),
                         "9150102.06", "9150103.00",
                         "9150104.01", "9150104.02",
                         "9150105.01", "9150105.02", "9150105.03"))
+
+st_write(CT16Age, "Homeownership_shp", driver="ESRI Shapefile")
 
 #Eighth, dwelling structure
 
@@ -204,6 +223,7 @@ CT16DwellingStructure <- get_census(dataset='CA16', regions=list(CMA='59915'),
                         "9150104.01", "9150104.02",
                         "9150105.01", "9150105.02", "9150105.03"))
 
+st_write(CT16Age, "DwellingStructure_shp", driver="ESRI Shapefile")
 
 #Ninth, living alone
 CT16LiveAlone <- get_census(dataset='CA16', regions=list(CMA='59915'),
@@ -214,3 +234,6 @@ CT16LiveAlone <- get_census(dataset='CA16', regions=list(CMA='59915'),
                         "9150102.06", "9150103.00",
                         "9150104.01", "9150104.02",
                         "9150105.01", "9150105.02", "9150105.03"))
+
+
+st_write(CT16Age, "LiveAlone_shp", driver="ESRI Shapefile")
