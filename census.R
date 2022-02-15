@@ -1,15 +1,19 @@
 #install via downloading package
 
 install.packages("cancensus")
+install.packages("sf")
+install.packages("geojsonsf")
 
 library(cancensus)
+library(sf)
+library(geojsonsf)
 library(tidyverse)
 library(dplyr)
 
 options(cancensus.api_key = "CensusMapper_330652d5ae9c2ccaafc7883a06fb3967")
 options(cancensus.cache_path = "./CancensusCache")
 
-set_api_key("CensusMapper_330652d5ae9c2ccaafc7883a06fb3967", install = TRUE)
+set_api_key("CensusMapper_330652d5ae9c2ccaafc7883a06fb3967", install=TRUE)
 
 
 cancensus <- list_census_datasets()
@@ -117,57 +121,64 @@ find_census_vectors("1 person", dataset = "CA16", type = "total", query_type = "
 
 CT16Age <- get_census(dataset='CA16', regions=list(CMA='59915'),
                           vectors=c("v_CA16_7","v_CA16_244"),
-                          level = 'CT', use_cache = FALSE) %>%
+                          level = 'CT', geo_format ="sf", use_cache = FALSE) %>%
                 filter(!GeoUID %in% c("9150100.00", "9150101.00","9150102.01",
                         "9150102.04", "9150102.05",
                         "9150102.06", "9150103.00",
                         "9150104.01", "9150104.02",
                         "9150105.01", "9150105.02", "9150105.03"))
+st_write(CT16Age, "Age.shp")
+
 
 #Second, visible minority pop.
 
 CT16Race <- get_census(dataset='CA16', regions=list(CMA='59915'),
                        vectors= "v_CA16_3957",
-                       level = 'CT', use_cache = FALSE) %>%
+                       level = 'CT', geo_format ="sf", use_cache = FALSE) %>%
   filter(!GeoUID %in% c("9150100.00", "9150101.00","9150102.01",
                         "9150102.04", "9150102.05",
                         "9150102.06", "9150103.00",
                         "9150104.01", "9150104.02",
                         "9150105.01", "9150105.02", "9150105.03"))
+st_write(CT16Race, "Race.shp")
 
 #Third, language proficiency
 
 CT16Language <- get_census(dataset='CA16', regions=list(CMA='59915'),
                            vectors= "v_CA16_524",
-                           level = 'CT', use_cache = FALSE) %>%
+                           level = 'CT', geo_format ="sf", use_cache = FALSE) %>%
   filter(!GeoUID %in% c("9150100.00", "9150101.00","9150102.01",
                         "9150102.04", "9150102.05",
                         "9150102.06", "9150103.00",
                         "9150104.01", "9150104.02",
                         "9150105.01", "9150105.02", "9150105.03"))
+st_write(CT16Language, "Language.shp")
+
 
 #Fourth, income
 CT16Income <- get_census(dataset='CA16', regions=list(CMA='59915'),
                          vectors=c("v_CA16_2401","v_CA16_2404"),
-                         level = 'CT', use_cache = FALSE) %>%
+                         level = 'CT', geo_format ="sf", use_cache = FALSE) %>%
   filter(!GeoUID %in% c("9150100.00", "9150101.00","9150102.01",
                         "9150102.04", "9150102.05",
                         "9150102.06", "9150103.00",
                         "9150104.01", "9150104.02",
                         "9150105.01", "9150105.02", "9150105.03"))
 
-
+st_write(CT16Income, "Income.shp")
 
 #Fifth, education attainment
 
 CT16Education <- get_census(dataset='CA16', regions=list(CMA='59915'),
                             vectors= "v_CA16_5054",
-                            level = 'CT', use_cache = FALSE) %>%
+                            level = 'CT', geo_format ="sf", use_cache = FALSE) %>%
   filter(!GeoUID %in% c("9150100.00", "9150101.00","9150102.01",
                         "9150102.04", "9150102.05",
                         "9150102.06", "9150103.00",
                         "9150104.01", "9150104.02",
                         "9150105.01", "9150105.02", "9150105.03"))
+st_write(CT16Education, "Education.shp")
+
 
 #Sixth, primary & tourism industry
 
@@ -186,31 +197,37 @@ CT16PrimaryTourism <- get_census(dataset='CA16', regions=list(CMA='59915'),
 
 CT16HomeOwnership <- get_census(dataset='CA16', regions=list(CMA='59915'),
                                 vectors=c("v_CA16_4837","v_CA16_4838"),
-                                level = 'CT', use_cache = FALSE) %>%
+                                level = 'CT', geo_format ="sf", use_cache = FALSE) %>%
   filter(!GeoUID %in% c("9150100.00", "9150101.00","9150102.01",
                         "9150102.04", "9150102.05",
                         "9150102.06", "9150103.00",
                         "9150104.01", "9150104.02",
                         "9150105.01", "9150105.02", "9150105.03"))
+st_write(CT16HomeOwnership, "Homeownership.shp")
+
+
 
 #Eighth, dwelling structure
 
 CT16DwellingStructure <- get_census(dataset='CA16', regions=list(CMA='59915'),
                                 vectors=c("v_CA16_40","v_CA16_410", "v_CA16_417"),
-                                level = 'CT', use_cache = FALSE) %>%
+                                level = 'CT', geo_format ="sf", use_cache = FALSE) %>%
   filter(!GeoUID %in% c("9150100.00", "9150101.00","9150102.01",
                         "9150102.04", "9150102.05",
                         "9150102.06", "9150103.00",
                         "9150104.01", "9150104.02",
                         "9150105.01", "9150105.02", "9150105.03"))
+st_write(CT16DwellingStructure, "Dwelling.shp")
+
 
 
 #Ninth, living alone
 CT16LiveAlone <- get_census(dataset='CA16', regions=list(CMA='59915'),
                             vectors= "v_CA16_419",
-                            level = 'CT', use_cache = FALSE) %>%
+                            level = 'CT', geo_format ="sf", use_cache = FALSE) %>%
   filter(!GeoUID %in% c("9150100.00", "9150101.00","9150102.01",
                         "9150102.04", "9150102.05",
                         "9150102.06", "9150103.00",
                         "9150104.01", "9150104.02",
                         "9150105.01", "9150105.02", "9150105.03"))
+st_write(CT16LiveAlone, "LiveAlone.shp")
